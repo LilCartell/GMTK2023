@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +12,13 @@ public class LevelsScene : MonoBehaviour
     public LevelManager LevelManager;
     public GameObject TilesGrid;
 
+    #region Animation timing
+    public float PushyFallingTime = 0.7f;
+    public float RockFallingTime = 0.5f;
+    public float SwappingSmokeTime = 0.8f;
+    
+    #endregion
+
     #region Debug
     public GameObject DebugButton;
     #endregion
@@ -19,6 +27,7 @@ public class LevelsScene : MonoBehaviour
     private List<TileDefinition> _lastLevelLoaded;
     private List<Tile> _tiles = new List<Tile>();
     private List<Tile> _modifiedTilesThisFrame = new List<Tile>();
+    private int _animationsPlaying = 0;
 
     private void Awake()
     {
@@ -37,6 +46,9 @@ public class LevelsScene : MonoBehaviour
 
     private void Update()
     {
+        if (_animationsPlaying > 0)
+            return;
+
         if(Input.GetKeyDown(KeyCode.Space))
         {
             SwitchCharacters();
@@ -105,6 +117,10 @@ public class LevelsScene : MonoBehaviour
                             nextBoxTile.SetNewElement(TileElement.BOX);
                             _modifiedTilesThisFrame.Add(nextBoxTile);
                         }
+                        else
+                        {
+                            PlayRockFall(nextBoxTile);
+                        }
                     }
                     else //If movement direction is taken by a wall or box or the tile doesn't exist, we're blocked and nothing happens
                     {
@@ -151,24 +167,85 @@ public class LevelsScene : MonoBehaviour
 
     private void SwitchCharacters()
     {
+        StartCoroutine(SwitchCharactersCoroutine());
+    }
+
+
+    private IEnumerator SwitchCharactersCoroutine()
+    {
+        ++_animationsPlaying;
+
         var flottyTile = _tiles.First(tile => tile.CurrentElementPresent == TileElement.FLOTTY);
         var pushyTile = _tiles.First(tile => tile.CurrentElementPresent == TileElement.PUSHY);
 
         flottyTile.SetNewElement(TileElement.PUSHY);
         pushyTile.SetNewElement(TileElement.FLOTTY);
 
-        _modifiedTilesThisFrame.Add(flottyTile);
-        _modifiedTilesThisFrame.Add(pushyTile);
+        var flottyTileUI = GetUITile(flottyTile);
+        var pushyTileUI = GetUITile(pushyTile);
+
+        flottyTileUI.Flotty.SetActive(false);
+        flottyTileUI.Swapping.SetActive(true);
+        pushyTileUI.Pushy.SetActive(false);
+        pushyTileUI.Swapping.SetActive(true);
+
+        yield return new WaitForSeconds(SwappingSmokeTime);
+
+        --_animationsPlaying;
+        flottyTileUI.Reload();
+        pushyTileUI.Reload();
+    }
+
+    private void PlayPushyFall(Tile tile)
+    {
+        StartCoroutine(PlayPushyFallCoroutine(tile));
+    }
+
+    private IEnumerator PlayPushyFallCoroutine(Tile tile)
+    {
+        ++_animationsPlaying;
+        var pushyUITile = GetUITile(tile);
+        pushyUITile.Pushy.SetActive(false);
+        pushyUITile.PushyFalling.SetActive(true);
+        yield return new WaitForSeconds(PushyFallingTime);
+        pushyUITile.PushyFalling.SetActive(false);
+        --_animationsPlaying;
+        RestartLastLevel();
+    }
+
+    private void PlayRockFall(Tile tile)
+    {
+        StartCoroutine(PlayRockFallCoroutine(tile));
+    }
+
+    private IEnumerator PlayRockFallCoroutine(Tile tile)
+    {
+        ++_animationsPlaying;
+        var rockFallUITile = GetUITile(tile);
+        rockFallUITile.RockFalling.SetActive(true);
+        yield return new WaitForSeconds(RockFallingTime);
+        rockFallUITile.RockFalling.SetActive(false);
+        --_animationsPlaying;
     }
 
     private void RefreshModifiedTiles()
     {
-        var tileUIs = TilesGrid.GetComponentsInChildren<TileUI>();
         foreach (var tile in _modifiedTilesThisFrame)
         {
-            tileUIs.First(tileUI => tileUI.LinkedTile == tile).Reload();
+            RefreshTile(tile);           
         }
         _modifiedTilesThisFrame.Clear();
+    }
+
+    private void RefreshTile(Tile tile)
+    {
+        GetUITile(tile).Reload();
+    }
+
+    private TileUI GetUITile(Tile tile)
+    {
+        var tileUIs = TilesGrid.GetComponentsInChildren<TileUI>();
+        return tileUIs.First(tileUI => tileUI.LinkedTile == tile);
     }
 
     private void TriggerGameOverIfNeeded()
@@ -190,7 +267,7 @@ public class LevelsScene : MonoBehaviour
 
     private void GameOver()
     {
-        RestartLastLevel();
+        PlayPushyFall(_tiles.First(tile => tile.CurrentElementPresent == TileElement.PUSHY));
     }
 
     private void LevelSuccess()

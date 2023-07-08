@@ -10,6 +10,9 @@ public class TileUI : MonoBehaviour
     public GameObject Door;
     public GameObject Wall;
     public GameObject[] WallVariations;
+    public GameObject PushyFalling;
+    public GameObject RockFalling;
+    public GameObject Swapping;
 
     public Tile LinkedTile { get; private set; }
 
@@ -27,6 +30,9 @@ public class TileUI : MonoBehaviour
         Box.SetActive(false);
         Door.SetActive(false);
         Wall.SetActive(false);
+        RockFalling.SetActive(false);
+        PushyFalling.SetActive(false);
+        Swapping.SetActive(false);
 
         switch(LinkedTile.Type)
         {
