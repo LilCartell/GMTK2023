@@ -176,13 +176,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MusicsSource: {fileID: 6084299829661570725}
   SoundEffectsSource: {fileID: 3605398716481894483}
-  TitleScreenMusic: {fileID: 8300000, guid: 707b214c0b11c374184d8c832d7113a7, type: 3}
+  TitleScreenMusic: {fileID: 8300000, guid: b0180dc6db0de6243a78b5233a757a42, type: 3}
   IntroductionMusic: {fileID: 0}
   LevelsMusic: {fileID: 8300000, guid: fe3715d29872b74459ba83471710b25b, type: 3}
-  EndMusic: {fileID: 8300000, guid: 707b214c0b11c374184d8c832d7113a7, type: 3}
-  SwapSound: {fileID: 8300000, guid: f15890f0370717542914daf1b0c59eaf, type: 3}
-  RockFallingSound: {fileID: 8300000, guid: f15890f0370717542914daf1b0c59eaf, type: 3}
-  PushyFallingSound: {fileID: 8300000, guid: f15890f0370717542914daf1b0c59eaf, type: 3}
+  EndMusic: {fileID: 8300000, guid: b0180dc6db0de6243a78b5233a757a42, type: 3}
+  SwapSound: {fileID: 8300000, guid: 4ca60b4287a3698488cd09c21a15eea0, type: 3}
+  RockPushSound: {fileID: 8300000, guid: add23424539864b4d8119f743a6f9192, type: 3}
+  RockFallingSound: {fileID: 8300000, guid: add23424539864b4d8119f743a6f9192, type: 3}
+  PushyFallingSound: {fileID: 8300000, guid: add23424539864b4d8119f743a6f9192, type: 3}
   ReachedDoorSound: {fileID: 8300000, guid: e7ac6169c8e866743b13595ab4d94cfc, type: 3}
 --- !u!1 &6964076173194460981
 GameObject:
