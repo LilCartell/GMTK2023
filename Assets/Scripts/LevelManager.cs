@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
 
     public List<TileDefinition> GetLevelTiles(int levelIndex)
     {
-        if (levelIndex > 0 && levelIndex < LevelFiles.Count)
+        if (levelIndex >= 0 && levelIndex < LevelFiles.Count)
             return GetLevelTiles(LevelFiles[levelIndex]);
         return null;
     }
