@@ -47,7 +47,6 @@ MonoBehaviour:
   LinesCount: 9
   ColumnsCount: 16
   LevelFiles:
-  - {fileID: 4900000, guid: 93b16d225e53095448a7fc56abbf6237, type: 3}
   - {fileID: 4900000, guid: 896dd14ebc066d5439fac3cfc53e73e6, type: 3}
   - {fileID: 4900000, guid: 263c637998e0581418452a4a7a2aae45, type: 3}
   - {fileID: 4900000, guid: 6691633a63b6bbf4cbf4db30c075f3e7, type: 3}
