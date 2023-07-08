@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelsScene : MonoBehaviour
 {
@@ -74,7 +75,7 @@ public class LevelsScene : MonoBehaviour
         var nextFlottyTile = GetTileAfterMovement(flottyTile, direction);
         if(nextFlottyTile != null)
         {
-            if(nextFlottyTile.CurrentElementPresent != TileElement.BOX
+            if(nextFlottyTile.CurrentElementPresent != TileElement.BOX && nextFlottyTile.CurrentElementPresent != TileElement.PUSHY
                 && nextFlottyTile.Type != TileType.WALL) //Flotty can go anywhere except tiles with box or walls
             {
                 flottyTile.SetNewElement(TileElement.NONE);
@@ -88,7 +89,7 @@ public class LevelsScene : MonoBehaviour
         var nextPushyTile = GetTileAfterMovement(pushyTile, direction);
         if(nextPushyTile != null)
         {
-            if(nextPushyTile.Type != TileType.WALL)
+            if(nextPushyTile.Type != TileType.WALL && nextPushyTile.CurrentElementPresent != TileElement.FLOTTY)
             {
                 bool blockedByBox = false;
                 if(nextPushyTile.CurrentElementPresent == TileElement.BOX) //Pushy dies on holes but he CAN travel there
@@ -217,7 +218,7 @@ public class LevelsScene : MonoBehaviour
         }
         else
         {
-            //TODO End game
+            SceneManager.LoadScene("EndScene");
         }
     }
 
