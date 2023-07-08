@@ -5,6 +5,16 @@ public class SoundManager : MonoBehaviour
 	public AudioSource MusicsSource;
 	public AudioSource SoundEffectsSource;
 
+	public AudioClip TitleScreenMusic;
+	public AudioClip IntroductionMusic;
+	public AudioClip LevelsMusic;
+	public AudioClip EndMusic;
+
+	public AudioClip SwapSound;
+	public AudioClip RockFallingSound;
+	public AudioClip PushyFallingSound;
+	public AudioClip ReachedDoorSound;
+
 	public static SoundManager Instance { get; private set; }
 
 	private void Awake()
@@ -22,13 +32,19 @@ public class SoundManager : MonoBehaviour
 
 	public void PlayMusic(AudioClip musicClip)
 	{
-		MusicsSource.clip = musicClip;
-		MusicsSource.Play();
+		if(musicClip != null && musicClip != MusicsSource.clip)
+        {
+			MusicsSource.clip = musicClip;
+			MusicsSource.Play();
+		}
 	}
 
 	public void PlaySound(AudioClip effectSound)
 	{
-		SoundEffectsSource.clip = effectSound;
-		SoundEffectsSource.Play();
+		if(effectSound)
+        {
+			SoundEffectsSource.clip = effectSound;
+			SoundEffectsSource.Play();
+		}
 	}
 }

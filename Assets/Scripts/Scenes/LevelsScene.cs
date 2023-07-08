@@ -36,6 +36,8 @@ public class LevelsScene : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.Instance.PlayMusic(SoundManager.Instance.LevelsMusic);
+
         LoadNextLevel();
 
         if(!Application.isEditor)
@@ -175,6 +177,7 @@ public class LevelsScene : MonoBehaviour
     {
         ++_animationsPlaying;
 
+        SoundManager.Instance.PlaySound(SoundManager.Instance.SwapSound);
         var flottyTile = _tiles.First(tile => tile.CurrentElementPresent == TileElement.FLOTTY);
         var pushyTile = _tiles.First(tile => tile.CurrentElementPresent == TileElement.PUSHY);
 
@@ -204,6 +207,7 @@ public class LevelsScene : MonoBehaviour
     private IEnumerator PlayPushyFallCoroutine(Tile tile)
     {
         ++_animationsPlaying;
+        SoundManager.Instance.PlaySound(SoundManager.Instance.PushyFallingSound);
         var pushyUITile = GetUITile(tile);
         pushyUITile.Pushy.SetActive(false);
         pushyUITile.PushyFalling.SetActive(true);
@@ -221,6 +225,7 @@ public class LevelsScene : MonoBehaviour
     private IEnumerator PlayRockFallCoroutine(Tile tile)
     {
         ++_animationsPlaying;
+        SoundManager.Instance.PlaySound(SoundManager.Instance.RockFallingSound);
         var rockFallUITile = GetUITile(tile);
         rockFallUITile.RockFalling.SetActive(true);
         yield return new WaitForSeconds(RockFallingTime);
@@ -272,6 +277,7 @@ public class LevelsScene : MonoBehaviour
 
     private void LevelSuccess()
     {
+        SoundManager.Instance.PlaySound(SoundManager.Instance.ReachedDoorSound);
         LoadNextLevel();
     }
 

@@ -4,6 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class EndScene : MonoBehaviour
 {
+    private void Start()
+    {
+        SoundManager.Instance.PlayMusic(SoundManager.Instance.EndMusic);
+    }
     public void BackToBeginning()
     {
         SceneManager.LoadScene("TitleScene");

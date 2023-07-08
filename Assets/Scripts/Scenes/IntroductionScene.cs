@@ -13,6 +13,11 @@ public class IntroductionScene : MonoBehaviour
         PressAnyKeyPrompt.SetActive(false);
     }
 
+    private void Start()
+    {
+        SoundManager.Instance.PlayMusic(SoundManager.Instance.IntroductionMusic);
+    }
+
     private void Update()
     {
         _timeElapsed += Time.deltaTime;
