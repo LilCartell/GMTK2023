@@ -12003,7 +12003,7 @@ MonoBehaviour:
   PushyFallingTime: 0.7
   RockFallingTime: 0.5
   SwappingSmokeTime: 0.8
-  DebugButton: {fileID: 0}
+  DebugButton: {fileID: 1861263126}
 --- !u!4 &1494762592
 Transform:
   m_ObjectHideFlags: 0
