@@ -30,9 +30,9 @@ public class ParallaxEffect : MonoBehaviour
 
 
 
-            if (transform.position.x  > 1920f+940f )
+            if (transform.position.x  > Screen.width+940f )
             {
-                NewPosition = new Vector3(-1920f+940f, transform.position.y, transform.position.z);
+                NewPosition = new Vector3(-Screen.width+940f, transform.position.y, transform.position.z);
             }
             Debug.Log(transform.position.x);
             transform.position = NewPosition;
