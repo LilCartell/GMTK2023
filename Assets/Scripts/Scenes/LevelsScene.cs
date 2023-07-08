@@ -35,6 +35,9 @@ public class LevelsScene : MonoBehaviour
     private List<Tile> _modifiedTilesThisFrame = new List<Tile>();
     private int _animationsPlaying = 0;
 
+
+    public GameObject WhiteScreen;
+
     private void Awake()
     {
         _instance = this;
@@ -69,21 +72,21 @@ public class LevelsScene : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.R))
         {
-            RestartLastLevel();
+            StartCoroutine(RestartLastLevel());
         }
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
+        if(Input.GetKeyDown(KeyCode.LeftArrow)||Input.GetKeyDown(KeyCode.A))
         {
             ExecuteMovement(Directions.LEFT);
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow)||Input.GetKeyDown(KeyCode.D))
         {
             ExecuteMovement(Directions.RIGHT);
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow)||Input.GetKeyDown(KeyCode.W))
         {
             ExecuteMovement(Directions.UP);
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow)||Input.GetKeyDown(KeyCode.S))
         {
             ExecuteMovement(Directions.DOWN);
         }
@@ -189,7 +192,6 @@ public class LevelsScene : MonoBehaviour
     private IEnumerator SwitchCharactersCoroutine()
     {
         ++_animationsPlaying;
-
         SoundManager.Instance.PlaySound(SoundManager.Instance.SwapSound);
         var flottyTile = _tiles.First(tile => tile.CurrentElementPresent == TileElement.FLOTTY);
         var pushyTile = _tiles.First(tile => tile.CurrentElementPresent == TileElement.PUSHY);
@@ -214,7 +216,7 @@ public class LevelsScene : MonoBehaviour
 
     private void PlayPushyFall(Tile tile)
     {
-        StartCoroutine(PlayPushyFallCoroutine(tile));
+        StartCoroutine(PlayPushyFallCoroutine(tile));        
     }
 
     private IEnumerator PlayPushyFallCoroutine(Tile tile)
@@ -227,7 +229,7 @@ public class LevelsScene : MonoBehaviour
         yield return new WaitForSeconds(PushyFallingTime);
         pushyUITile.PushyFalling.SetActive(false);
         --_animationsPlaying;
-        RestartLastLevel();
+        StartCoroutine(RestartLastLevel());
     }
 
     private void PlayRockFall(Tile tile)
@@ -279,6 +281,7 @@ public class LevelsScene : MonoBehaviour
         if (_tiles.Exists(tile => tile.Type == TileType.DOOR && tile.CurrentElementPresent == TileElement.PUSHY)
             && _tiles.Exists(tile => tile.Type == TileType.DOOR && tile.CurrentElementPresent == TileElement.FLOTTY))
         {
+            StartCoroutine(Flash());
             LevelSuccess();
         }
     }
@@ -331,9 +334,34 @@ public class LevelsScene : MonoBehaviour
         }
     }
 
-    public void RestartLastLevel()
+    public IEnumerator RestartLastLevel()
     {
-        LoadLevel(_lastLevelLoaded);
+        LoadLevel(_lastLevelLoaded);  
+
+        // Ajoute Flash      
+        StartCoroutine(Flash());
+
+        ++_animationsPlaying;
+
+        SoundManager.Instance.PlaySound(SoundManager.Instance.SwapSound);
+
+        var flottyTile = _tiles.First(tile => tile.CurrentElementPresent == TileElement.FLOTTY);
+        var pushyTile = _tiles.First(tile => tile.CurrentElementPresent == TileElement.PUSHY);
+
+        var flottyTileUI = GetUITile(flottyTile);
+        var pushyTileUI = GetUITile(pushyTile);
+
+        flottyTileUI.Flotty.SetActive(false);
+        flottyTileUI.Swapping.SetActive(true);
+        pushyTileUI.Pushy.SetActive(false);
+        pushyTileUI.Swapping.SetActive(true);
+
+        yield return new WaitForSeconds(SwappingSmokeTime);
+
+        --_animationsPlaying;
+        flottyTileUI.Reload();
+        pushyTileUI.Reload();
+
     }
 
     private void LoadLevel(List<TileDefinition> levelDefinition)
@@ -348,5 +376,12 @@ public class LevelsScene : MonoBehaviour
         {
             tileUI.LoadWithTile(_tiles[tilesIndex++]);
         }
+    }
+
+    private IEnumerator Flash()
+    {
+        WhiteScreen.SetActive(true);
+        yield return new WaitForSeconds(0.15f);
+        WhiteScreen.SetActive(false);
     }
 }
