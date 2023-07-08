@@ -12,6 +12,12 @@ public class LevelsScene : MonoBehaviour
     public LevelManager LevelManager;
     public GameObject TilesGrid;
 
+    public GameObject ArrowsControls;
+    public GameObject ResetControls;
+    public GameObject SwapControls;
+    public int LevelToDisplaySwap = 4;
+    public int LevelToHideTuto = 6;
+
     #region Animation timing
     public float PushyFallingTime = 0.7f;
     public float RockFallingTime = 0.5f;
@@ -32,6 +38,12 @@ public class LevelsScene : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+        if (SwapControls != null)
+            SwapControls.SetActive(false);
+        if (ArrowsControls != null)
+            ArrowsControls.SetActive(true);
+        if (ResetControls != null)
+            ArrowsControls.SetActive(true);
     }
 
     private void Start()
@@ -303,6 +315,19 @@ public class LevelsScene : MonoBehaviour
         else
         {
             SceneManager.LoadScene("EndScene");
+        }
+
+        if (_currentLevelIndex + 1 == LevelToDisplaySwap && SwapControls != null)
+            SwapControls.SetActive(true);
+
+        if(_currentLevelIndex +1 == LevelToHideTuto)
+        {
+            if (SwapControls != null)
+                SwapControls.SetActive(false);
+            if (ArrowsControls != null)
+                ArrowsControls.SetActive(false);
+            if (ResetControls != null)
+                ResetControls.SetActive(false);
         }
     }
 
