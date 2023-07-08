@@ -1,17 +1,17 @@
 O O O O O O O O O O O O O O O O
 
-O O O O -1 X2 -3 O O -1 X2 -3 O O O O
+O O O O - X - O O - X - O O O O
 
-O O O O -5 -6 -7 O O -5 -6 -7 O O O O
+O O O O - - - O O - - - O O O O
 
-O O O O -5 -6 -11 O O -5 -6 -7 O O O O
+O O O O - - - O O - - - O O O O
 
-O O O O |16 |8 O O O B5 |16 |8 O O O O
+O O O O | | O O O B | | O O O O
 
-O O O O -5 -6 -3 O O -5 -6 -7 O O O O
+O O O O - - - O O - - - O O O O
 
-O O O O -5 -6 -7 O O -5 -6 -7 O O O O
+O O O O - - - O O - - - O O O O
 
-O O O O -9 P10 -11 O O -9 F10 -11 O O O O
+O O O O - P - O O - F - O O O O
 
 O O O O O O O O O O O O O O O O
