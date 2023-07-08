@@ -11430,7 +11430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelManager: {fileID: 1452551256}
   TilesGrid: {fileID: 188317162}
-  DebugButton: {fileID: 1861263126}
+  DebugButton: {fileID: 0}
 --- !u!4 &1494762592
 Transform:
   m_ObjectHideFlags: 0
