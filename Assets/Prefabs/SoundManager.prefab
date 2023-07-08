@@ -160,7 +160,7 @@ Transform:
   - {fileID: 3315072034895216018}
   - {fileID: 6986056636737878035}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5227152385980122627
 MonoBehaviour:
@@ -182,7 +182,7 @@ MonoBehaviour:
   EndMusic: {fileID: 8300000, guid: b0180dc6db0de6243a78b5233a757a42, type: 3}
   SwapSound: {fileID: 8300000, guid: 4ca60b4287a3698488cd09c21a15eea0, type: 3}
   RockPushSound: {fileID: 8300000, guid: add23424539864b4d8119f743a6f9192, type: 3}
-  RockFallingSound: {fileID: 8300000, guid: add23424539864b4d8119f743a6f9192, type: 3}
+  RockFallingSound: {fileID: 8300000, guid: 70aea60c64425bc48880bb902f6ee334, type: 3}
   PushyFallingSound: {fileID: 8300000, guid: add23424539864b4d8119f743a6f9192, type: 3}
   ReachedDoorSound: {fileID: 8300000, guid: e7ac6169c8e866743b13595ab4d94cfc, type: 3}
 --- !u!1 &6964076173194460981
