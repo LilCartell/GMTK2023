@@ -1,0 +1,17 @@
+O O O | | | | | | | | | | O O O
+
+O O O | - X - | | - X - | O O O
+
+O O O | - - - | | - - - | O O O
+
+O O O | - - - | | - - - | O O O
+
+O O O | | B | | | - - - | O O O
+
+O O O | - - - | | - - - | O O O
+
+O O O | - - - | | - - - | O O O
+
+O O O | - P - | | - F - | O O O
+
+O O O | | | | | | | | | | O O O
