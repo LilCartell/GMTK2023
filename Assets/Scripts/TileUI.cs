@@ -9,11 +9,11 @@ public class TileUI : MonoBehaviour
     public GameObject Door;
     public GameObject Wall;
 
-    private Tile _tile;
+    public Tile LinkedTile { get; private set; }
 
     public void LoadWithTile(Tile tile)
     {
-        _tile = tile;
+        LinkedTile = tile;
         Reload();
     }
 
@@ -26,7 +26,7 @@ public class TileUI : MonoBehaviour
         Door.SetActive(false);
         Wall.SetActive(false);
 
-        switch(_tile.Type)
+        switch(LinkedTile.Type)
         {
             case TileType.DOOR:
                 Floor.SetActive(true);
@@ -46,7 +46,7 @@ public class TileUI : MonoBehaviour
                 break;
         }
 
-        switch(_tile.CurrentElementPresent)
+        switch(LinkedTile.CurrentElementPresent)
         {
             case TileElement.BOX:
                 Box.SetActive(true);

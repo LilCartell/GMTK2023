@@ -17,4 +17,9 @@
         Type = definition.Type;
         CurrentElementPresent = definition.StartingElement;
     }
+
+    public void SetNewElement(TileElement element)
+    {
+        CurrentElementPresent = element;
+    }
 }
