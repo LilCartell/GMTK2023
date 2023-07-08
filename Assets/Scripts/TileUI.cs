@@ -5,9 +5,11 @@ public class TileUI : MonoBehaviour
     public GameObject Pushy;
     public GameObject Flotty;
     public GameObject Floor;
+    public GameObject[] FloorVariations;
     public GameObject Box;
     public GameObject Door;
     public GameObject Wall;
+    public GameObject[] WallVariations;
 
     public Tile LinkedTile { get; private set; }
 
@@ -59,6 +61,16 @@ public class TileUI : MonoBehaviour
             case TileElement.PUSHY:
                 Pushy.SetActive(true);
                 break;
+        }
+
+        for(int i = 0; i < WallVariations.Length; ++i)
+        {
+            WallVariations[i].SetActive(i == LinkedTile.Variation);
+        }
+
+        for (int i = 0; i < FloorVariations.Length; ++i)
+        {
+            FloorVariations[i].SetActive(i == LinkedTile.Variation);
         }
     }
 }

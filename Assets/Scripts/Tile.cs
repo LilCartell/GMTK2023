@@ -3,6 +3,7 @@
     public int X { get; private set; }
     public int Y { get; private set; }
     public TileType Type { get; private set; }
+    public int Variation { get; private set; }
     public TileElement CurrentElementPresent { get; private set; }
 
     public Tile(TileDefinition definition)
@@ -16,6 +17,7 @@
         Y = definition.Y;
         Type = definition.Type;
         CurrentElementPresent = definition.StartingElement;
+        Variation = definition.Variation;
     }
 
     public void SetNewElement(TileElement element)

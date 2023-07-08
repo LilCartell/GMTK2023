@@ -29,18 +29,23 @@ public class LevelManager : MonoBehaviour
 
         for(int i = 0; i < lines.Count; ++i)
         {
-            var trimmedLine = lines[i].Replace(" ", "");
-            trimmedLine = trimmedLine.Replace("\r", "");
-            if (trimmedLine.Length != ColumnsCount)
+            var trimmedLine = lines[i].Replace("\r", "");
+            
+            var splittedLine = trimmedLine.Split(" ").Where(line => !string.IsNullOrWhiteSpace(line)).ToList();
+
+            if (splittedLine.Count != ColumnsCount)
             {
                 errorStrings.Add("At line " + (i + 1).ToString() + " : expecting " + ColumnsCount.ToString() + " symbols, got " + trimmedLine.Length);
             }
-            for(int j = 0; j < trimmedLine.Length; ++j)
+
+            for(int j = 0; j < splittedLine.Count; ++j)
             {
                 var currentTileElement = TileElement.NONE;
                 var currentTileType = TileType.HOLE;
 
-                switch(trimmedLine[j])
+                var currentSymbol = splittedLine[j];
+                var firstLetter = currentSymbol[0];
+                switch (firstLetter)
                 {
                     case '-':
                         currentTileType = TileType.FLOOR;
@@ -87,7 +92,21 @@ public class LevelManager : MonoBehaviour
                         break;
                 }
 
-                levelTiles.Add(new TileDefinition(j, i, currentTileType, currentTileElement));
+
+                int variation = -1;
+                currentSymbol = currentSymbol.Replace(firstLetter.ToString(), "");
+                if(currentSymbol.Length > 0) //Remaining characters
+                {
+                    try
+                    {
+                        variation = int.Parse(currentSymbol);
+                    }
+                    catch 
+                    {
+                        errorStrings.Add("Line " + (i + 1).ToString() + " symbol " + (j + 1).ToString() + " : couldn't parse number");
+                    }
+                }
+                levelTiles.Add(new TileDefinition(j, i, currentTileType, currentTileElement, variation - 1));
             }
         }
 
