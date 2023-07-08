@@ -11,6 +11,7 @@ public class SoundManager : MonoBehaviour
 	public AudioClip EndMusic;
 
 	public AudioClip SwapSound;
+	public AudioClip RockPushSound;
 	public AudioClip RockFallingSound;
 	public AudioClip PushyFallingSound;
 	public AudioClip ReachedDoorSound;

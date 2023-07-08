@@ -116,6 +116,7 @@ public class LevelsScene : MonoBehaviour
                     {
                         if(nextBoxTile.Type != TileType.HOLE) //Boxes disappear in holes so hole tiles remain unaffected
                         {
+                            SoundManager.Instance.PlaySound(SoundManager.Instance.RockPushSound);
                             nextBoxTile.SetNewElement(TileElement.BOX);
                             _modifiedTilesThisFrame.Add(nextBoxTile);
                         }
