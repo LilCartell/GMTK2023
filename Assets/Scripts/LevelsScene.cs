@@ -10,6 +10,10 @@ public class LevelsScene : MonoBehaviour
     public LevelManager LevelManager;
     public GameObject TilesGrid;
 
+    #region Debug
+    public GameObject DebugButton;
+    #endregion
+
     private int _currentLevelIndex = -1;
     private List<TileDefinition> _lastLevelLoaded;
     private List<Tile> _tiles = new List<Tile>();
@@ -23,6 +27,11 @@ public class LevelsScene : MonoBehaviour
     private void Start()
     {
         LoadNextLevel();
+
+        if(!Application.isEditor)
+        {
+            DebugButton.SetActive(false);
+        }
     }
 
     private void Update()
