@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class LevelsScene : MonoBehaviour
@@ -37,6 +38,7 @@ public class LevelsScene : MonoBehaviour
 
 
     public GameObject WhiteScreen;
+    public Text LevelText;
 
     private void Awake()
     {
@@ -72,7 +74,7 @@ public class LevelsScene : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.R))
         {
-            StartCoroutine(RestartLastLevel());
+            RestartLastLevel();
         }
         if(Input.GetKeyDown(KeyCode.LeftArrow)||Input.GetKeyDown(KeyCode.A))
         {
@@ -229,7 +231,7 @@ public class LevelsScene : MonoBehaviour
         yield return new WaitForSeconds(PushyFallingTime);
         pushyUITile.PushyFalling.SetActive(false);
         --_animationsPlaying;
-        StartCoroutine(RestartLastLevel());
+        RestartLastLevel();
     }
 
     private void PlayRockFall(Tile tile)
@@ -305,7 +307,7 @@ public class LevelsScene : MonoBehaviour
             _currentLevelIndex = 0;
             _lastLevelLoaded = LevelManager.GetLevelTiles(_currentLevelIndex);
         }
-        LoadLevel(_lastLevelLoaded);
+        StartCoroutine(LoadLevel(_lastLevelLoaded));
     }
 
     public void LoadNextLevel()
@@ -313,7 +315,7 @@ public class LevelsScene : MonoBehaviour
         _lastLevelLoaded = LevelManager.GetLevelTiles(++_currentLevelIndex);
         if(_lastLevelLoaded != null)
         {
-            LoadLevel(_lastLevelLoaded);
+            StartCoroutine(LoadLevel(_lastLevelLoaded));
         }
         else
         {
@@ -334,13 +336,36 @@ public class LevelsScene : MonoBehaviour
         }
     }
 
-    public IEnumerator RestartLastLevel()
+    public void RestartLastLevel()
     {
-        LoadLevel(_lastLevelLoaded);  
+        StartCoroutine(LoadLevel(_lastLevelLoaded));  
 
         // Ajoute Flash      
         StartCoroutine(Flash());
 
+        
+
+    }
+
+    private IEnumerator LoadLevel(List<TileDefinition> levelDefinition)
+    {
+        _tiles = new List<Tile>();
+        foreach(var tileDefinition in levelDefinition)
+        {
+            _tiles.Add(new Tile(tileDefinition));
+        }
+        int tilesIndex = 0;
+        foreach(var tileUI in TilesGrid.GetComponentsInChildren<TileUI>())
+        {
+            tileUI.LoadWithTile(_tiles[tilesIndex++]);
+        }
+
+
+        // Indique Level
+        int CurrentLevel = _currentLevelIndex +1;
+        LevelText.text = CurrentLevel.ToString();
+
+        // Fumée ?
         ++_animationsPlaying;
 
         SoundManager.Instance.PlaySound(SoundManager.Instance.SwapSound);
@@ -362,20 +387,7 @@ public class LevelsScene : MonoBehaviour
         flottyTileUI.Reload();
         pushyTileUI.Reload();
 
-    }
 
-    private void LoadLevel(List<TileDefinition> levelDefinition)
-    {
-        _tiles = new List<Tile>();
-        foreach(var tileDefinition in levelDefinition)
-        {
-            _tiles.Add(new Tile(tileDefinition));
-        }
-        int tilesIndex = 0;
-        foreach(var tileUI in TilesGrid.GetComponentsInChildren<TileUI>())
-        {
-            tileUI.LoadWithTile(_tiles[tilesIndex++]);
-        }
     }
 
     private IEnumerator Flash()
